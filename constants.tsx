@@ -7,6 +7,7 @@ export const PIECES: Piece[] = [
   { id: '3', name: 'Prato Astral', category: 'Prato', price: 950, image: 'https://images.unsplash.com/photo-1520408222757-6f9f95d87d5d?auto=format&fit=crop&q=80&w=600', description: 'Design circular moderno.' },
   { id: '4', name: 'Vaso Flora', category: 'Vaso', price: 1800, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600', description: 'Elegância para suas plantas.' },
   { id: '5', name: 'Gato Curioso', category: 'Estatueta', price: 850, image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600', description: 'Para os amantes de felinos.' },
+  { id: '6', name: 'O anjo Inocente', category: 'Estatueta', price: 550, image: 'https://images.unsplash.com/photo-1733313367953-90da0f9fe21c??auto=format&fit=crop&q=80&w=600', description: 'Apreciação para além das nuvens.' },
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
