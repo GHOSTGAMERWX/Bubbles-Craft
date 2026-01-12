@@ -1,0 +1,7 @@
+{
+  "name": "Bubbles & Craft - Cafe & Painting",
+  "description": "A minimalist, cozy digital experience for a ceramic painting cafe. Reserve your pieces, track drying status, and explore our artisanal menu.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
