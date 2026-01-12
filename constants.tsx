@@ -2,8 +2,8 @@
 import { Piece, MenuItem, ReservationStatus } from './types';
 
 export const PIECES: Piece[] = [
-  { id: '1', name: 'Buda Zen', category: 'Estatueta', price: 1250, image: 'https://images.unsplash.com/photo-1590422444867-041c5014886f?auto=format&fit=crop&q=80&w=600', description: 'Uma peça minimalista para trazer paz.' },
-  { id: '2', name: 'Caneca Cozy', category: 'Caneca', price: 750, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fbed39?auto=format&fit=crop&q=80&w=600', description: 'Perfeita para o seu chocolate quente.' },
+  { id: '1', name: 'Buda Zen', category: 'Estatueta', price: 1250, image: 'https://images.unsplash.com/photo-1695584797009-ac1052d9a3da?auto=format&fit=crop&q=80&w=600', description: 'Uma peça minimalista para trazer paz.' },
+  { id: '2', name: 'Caneca Cozy', category: 'Caneca', price: 750, image: 'https://images.unsplash.com/photo-1571824160507-8344b27a6f5c?auto=format&fit=crop&q=80&w=600', description: 'Perfeita para o seu chocolate quente.' },
   { id: '3', name: 'Prato Astral', category: 'Prato', price: 950, image: 'https://images.unsplash.com/photo-1520408222757-6f9f95d87d5d?auto=format&fit=crop&q=80&w=600', description: 'Design circular moderno.' },
   { id: '4', name: 'Vaso Flora', category: 'Vaso', price: 1800, image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600', description: 'Elegância para suas plantas.' },
   { id: '5', name: 'Gato Curioso', category: 'Estatueta', price: 850, image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=600', description: 'Para os amantes de felinos.' },
