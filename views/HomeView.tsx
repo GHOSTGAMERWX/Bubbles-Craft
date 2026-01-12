@@ -70,7 +70,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             title="Inspira-te com cores"
             description="Mergulhe em um universo variado de cores e pigmentos. Temos tudo o que você precisa para dar vida à sua visão."
             icon={<Sparkles size={20} />}
-            image="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&q=80&w=400"
+            image="https://images.unsplash.com/photo-1719084299855-f8cdbf42ec57?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&q=80&w=400"
             onClick={() => onNavigate('gallery')}
             reverse
           />
