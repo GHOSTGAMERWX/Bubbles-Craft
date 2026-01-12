@@ -10,7 +10,7 @@ export const PIECES: Piece[] = [
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
-  { id: 'm1', name: 'Hazelnut Latte', category: 'Cafés Especiais', price: 250, description: 'Sabor aveludado com toque de avelã.', image: 'https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&q=80&w=400', isNew: true },
+  { id: 'm1', name: 'Hazelnut Latte', category: 'Cafés Especiais', price: 250, description: 'Sabor aveludado com toque de avelã.', image: 'https://images.unsplash.com/photo-1598831745385-0c404c7034a9??auto=format&fit=crop&q=80&w=400', isNew: true },
   { id: 'm2', name: 'Mocha Dream', category: 'Cafés Especiais', price: 280, description: 'Chocolate belga com café artesanal.', image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&q=80&w=400', isNew: true },
   { id: 'm3', name: 'Capuccino Clássico', category: 'Bebidas Quentes', price: 180, description: 'Aveludado e equilibrado.', image: 'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&q=80&w=400' },
   { id: 'm4', name: 'Chá de Hibisco Gelado', category: 'Bebidas Frias', price: 150, description: 'Refrescante e floral.', image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=400' },
