@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TabType } from '../types';
-import { ChevronRight, Sparkles, Coffee, Image as ImageIcon, Paintbrush, Heart, Clock } from 'lucide-react';
+import { ChevronRight, Sparkles, Coffee, Paintbrush, Heart, Clock } from 'lucide-react';
 
 interface HomeViewProps {
   onNavigate: (tab: TabType) => void;

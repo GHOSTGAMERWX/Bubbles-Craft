@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { GALLERY_IMAGES } from '../constants.tsx';
-import { Camera, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const GalleryView: React.FC = () => {
   return (

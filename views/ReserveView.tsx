@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { PIECES } from '../constants.tsx';
 import { Piece } from '../types';
-import { Check, Calendar, Clock, Users, ChevronRight, ShoppingCart, MessageSquare } from 'lucide-react';
+import { Check, Calendar, Clock, Users, ChevronRight, MessageSquare } from 'lucide-react';
 
 const ReserveView: React.FC = () => {
   const [step, setStep] = useState(1);
