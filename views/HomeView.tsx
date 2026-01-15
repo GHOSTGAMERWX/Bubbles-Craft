@@ -75,7 +75,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             title="Sabor em cada traço"
             description="Faça a tua ordem a partir do nosso menu artesanal. Um bom café é o melhor combustível para a criatividade."
             icon={<Coffee size={20} />}
-            image="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&q=80&w=400"
+            image="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=400"
             onClick={() => onNavigate('menu')}
           />
 
