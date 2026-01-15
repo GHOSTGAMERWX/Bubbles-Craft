@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { MOCK_RESERVATIONS, PIECES, MOCK_HISTORY } from '../constants.tsx';
 import { ReservationStatus } from '../types';
-import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Heart, Hash, Tag, Info } from 'lucide-react';
+import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Heart, Hash, Tag, Info, MoreVertical, Trash2 } from 'lucide-react';
 
 type ProfileSubView = 'main' | 'history' | 'settings' | 'user-gallery';
 
@@ -13,16 +13,59 @@ interface ProfileViewProps {
 const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
   const [subView, setSubView] = useState<ProfileSubView>('main');
   const [notifications, setNotifications] = useState(true);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
-  const [userPhotos] = useState([
+  const [userPhotos, setUserPhotos] = useState([
     { id: 'up1', url: 'https://images.unsplash.com/photo-1525974738370-013ae11ca9c1?auto=format&fit=crop&q=80&w=400', likes: 84 },
     { id: 'up2', url: 'https://images.unsplash.com/photo-1563240381-5ccf7690ca08?auto=format&fit=crop&q=80&w=400', likes: 126 },
     { id: 'up3', url: 'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=400', likes: 45 },
     { id: 'up4', url: 'https://images.unsplash.com/photo-1473186578172-c141e6798ee4?auto=format&fit=crop&q=80&w=400', likes: 210 },
   ]);
 
+  const handleDeletePhoto = (id: string) => {
+    setUserPhotos(prev => prev.filter(p => p.id !== id));
+    setActiveMenu(null);
+  };
+
+  const renderPhotoItem = (photo: any, isLarge: boolean = false) => (
+    <div key={photo.id} className={`relative rounded-xl overflow-hidden shadow-sm border border-[#F1E9E0] group animate-in zoom-in-95 duration-300 ${isLarge ? 'aspect-[3/4]' : 'aspect-square'}`}>
+      <img src={photo.url} className="w-full h-full object-cover" alt="Obra" />
+      
+      {/* Botão de 3 pontos */}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          setActiveMenu(activeMenu === photo.id ? null : photo.id);
+        }}
+        className="absolute top-2 right-2 p-1.5 bg-black/20 backdrop-blur-md text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+      >
+        <MoreVertical size={14} />
+      </button>
+
+      {/* Menu de Opções */}
+      {activeMenu === photo.id && (
+        <div className="absolute top-10 right-2 bg-white/95 backdrop-blur-xl border border-[#F1E9E0] rounded-xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <button 
+            onClick={() => handleDeletePhoto(photo.id)}
+            className="flex items-center gap-2 px-4 py-3 text-red-500 hover:bg-red-50 transition-colors whitespace-nowrap"
+          >
+            <Trash2 size={14} />
+            <span className="text-[10px] font-bold uppercase tracking-widest">Eliminar Obra</span>
+          </button>
+        </div>
+      )}
+
+      {isLarge && (
+        <div className="absolute bottom-2 left-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-xl flex items-center gap-1 shadow-sm border border-white/40">
+          <Heart size={10} className="text-red-500 fill-current" />
+          <span className="text-[10px] font-bold text-[#8D7B68]">{photo.likes}</span>
+        </div>
+      )}
+    </div>
+  );
+
   const renderMain = () => (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-12">
+    <div className="space-y-8 animate-in fade-in duration-500 pb-12" onClick={() => setActiveMenu(null)}>
       <header className="flex items-center gap-6 p-6 pb-0">
         <div className="relative">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg" alt="User avatar" />
@@ -32,7 +75,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
         </div>
         <div>
           <h2 className="serif text-2xl text-[#8D7B68]">Olá, Maria</h2>
-          <p className="text-[10px] uppercase tracking-widest text-[#A4907C] font-bold">Membro B&C • Bronze</p>
         </div>
       </header>
 
@@ -105,11 +147,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
             </button>
           </div>
           <div className="grid grid-cols-4 gap-2">
-            {userPhotos.slice(0, 4).map(photo => (
-              <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden shadow-sm border border-[#F1E9E0]">
-                <img src={photo.url} className="w-full h-full object-cover" alt="Minha obra" />
-              </div>
-            ))}
+            {userPhotos.slice(0, 4).map(photo => renderPhotoItem(photo))}
           </div>
         </section>
 
@@ -128,7 +166,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
   );
 
   const renderUserGallery = () => (
-    <div className="p-6 space-y-6 animate-in slide-in-from-right duration-300">
+    <div className="p-6 space-y-6 animate-in slide-in-from-right duration-300" onClick={() => setActiveMenu(null)}>
       <button onClick={() => setSubView('main')} className="flex items-center gap-2 text-[#A4907C] mb-4">
         <ChevronLeft size={20} /> <span className="text-sm uppercase font-bold tracking-widest">Voltar</span>
       </button>
@@ -137,15 +175,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
         <p className="text-sm text-[#A4907C]">O teu traço eterno no Bubbles & Craft.</p>
       </header>
       <div className="grid grid-cols-2 gap-4">
-        {userPhotos.map(photo => (
-          <div key={photo.id} className="relative aspect-[3/4] rounded-[24px] overflow-hidden shadow-sm border border-[#F1E9E0]">
-            <img src={photo.url} className="w-full h-full object-cover" alt="Obra" />
-            <div className="absolute bottom-2 left-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-xl flex items-center gap-1 shadow-sm border border-white/40">
-              <Heart size={10} className="text-red-500 fill-current" />
-              <span className="text-[10px] font-bold text-[#8D7B68]">{photo.likes}</span>
-            </div>
-          </div>
-        ))}
+        {userPhotos.map(photo => renderPhotoItem(photo, true))}
       </div>
     </div>
   );
