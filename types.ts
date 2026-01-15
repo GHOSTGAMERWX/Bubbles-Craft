@@ -10,13 +10,12 @@ export interface Piece {
   description: string;
 }
 
+// Updated MenuItem category to include both food and beverage categories defined in constants.tsx
 export interface MenuItem {
   id: string;
   name: string;
-  category: 'Bebidas Quentes' | 'Bebidas Frias' | 'Cafés Especiais' | 'Snacks & Doces';
-  price: number;
+  category: 'Entradas' | 'Principal' | 'Pizzas' | 'Cafés' | 'Bubbles' | 'Artesanais' | 'Cervejas';
   description: string;
-  image: string;
   isNew?: boolean;
 }
 

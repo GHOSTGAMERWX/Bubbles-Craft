@@ -1,65 +1,143 @@
 
 import React, { useState } from 'react';
 import { MENU_ITEMS } from '../constants.tsx';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ChevronDown, Coffee, UtensilsCrossed } from 'lucide-react';
+
+type MainTab = 'Comidas' | 'Bebidas';
 
 const MenuView: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('Todos');
+  const [mainTab, setMainTab] = useState<MainTab>('Comidas');
+  const [activeCategory, setActiveCategory] = useState<string>(mainTab === 'Comidas' ? 'Entradas' : 'Cafés');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   
-  const categories = ['Todos', 'Cafés Especiais', 'Bebidas Quentes', 'Bebidas Frias', 'Snacks & Doces'];
-  const filteredItems = activeCategory === 'Todos' 
-    ? MENU_ITEMS 
-    : MENU_ITEMS.filter(item => item.category === activeCategory);
+  const foodCategories = ['Entradas', 'Principal', 'Pizzas'];
+  const drinkCategories = ['Cafés', 'Bubbles', 'Artesanais', 'Cervejas'];
+  
+  const categories = mainTab === 'Comidas' ? foodCategories : drinkCategories;
+  const filteredItems = MENU_ITEMS.filter(item => item.category === activeCategory);
+
+  const handleMainTabChange = (tab: MainTab) => {
+    setMainTab(tab);
+    setActiveCategory(tab === 'Comidas' ? 'Entradas' : 'Cafés');
+    setExpandedId(null);
+  };
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
 
   return (
-    <div className="p-6 space-y-6 animate-in fade-in duration-500">
+    <div className="p-6 space-y-8 animate-in fade-in duration-500 min-h-screen pb-32">
       <header className="text-center space-y-2">
-        <h2 className="serif text-3xl text-[#8D7B68]">O Nosso Menu</h2>
-        <p className="text-sm text-[#A4907C]">Sabores que abraçam e confortam.</p>
+        <h2 className="serif text-4xl text-[#8D7B68]">Sabor Artesanal</h2>
+        <p className="text-[10px] text-[#A4907C] uppercase tracking-[0.2em] font-bold">Curadoria Bubbles & Craft</p>
       </header>
 
-      {/* Categories Horizontal Scroll */}
-      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+      {/* Main Switch: Comidas vs Bebidas */}
+      <div className="flex bg-[#F1E9E0]/50 p-1.5 rounded-2xl border border-[#F1E9E0]">
+        <button 
+          onClick={() => handleMainTabChange('Comidas')}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+            mainTab === 'Comidas' 
+              ? 'bg-white text-[#8D7B68] shadow-sm' 
+              : 'text-[#A4907C]'
+          }`}
+        >
+          <UtensilsCrossed size={16} /> Comidas
+        </button>
+        <button 
+          onClick={() => handleMainTabChange('Bebidas')}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+            mainTab === 'Bebidas' 
+              ? 'bg-white text-[#8D7B68] shadow-sm' 
+              : 'text-[#A4907C]'
+          }`}
+        >
+          <Coffee size={16} /> Bebidas
+        </button>
+      </div>
+
+      {/* Sub-Categories Tabs */}
+      <div className="flex justify-start gap-4 overflow-x-auto no-scrollbar border-b border-[#F1E9E0] pb-0.5">
         {categories.map(cat => (
           <button
             key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium transition-all ${activeCategory === cat ? 'bg-[#8D7B68] text-white shadow-md' : 'bg-white text-[#A4907C] border border-[#F1E9E0]'}`}
+            onClick={() => {
+              setActiveCategory(cat);
+              setExpandedId(null);
+            }}
+            className={`px-4 py-3 text-[11px] uppercase tracking-widest font-bold whitespace-nowrap transition-all relative ${
+              activeCategory === cat 
+                ? 'text-[#8D7B68]' 
+                : 'text-[#C8B6A6]'
+            }`}
           >
             {cat}
+            {activeCategory === cat && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8D7B68]" />
+            )}
           </button>
         ))}
       </div>
 
-      {/* Menu List */}
-      <div className="space-y-4">
-        {filteredItems.map(item => (
-          <div key={item.id} className="flex gap-4 bg-white p-3 rounded-2xl border border-[#F1E9E0] shadow-sm relative overflow-hidden">
-            {item.isNew && (
-              <div className="absolute top-0 right-0 bg-[#C8B6A6] text-white text-[9px] px-2 py-1 font-bold uppercase tracking-tighter rounded-bl-lg flex items-center gap-1">
-                <Sparkles size={8} /> Novo
+      {/* Menu List - Minimalist Style */}
+      <div className="space-y-3">
+        {filteredItems.length > 0 ? (
+          filteredItems.map(item => (
+            <div 
+              key={item.id} 
+              className="group cursor-pointer bg-white rounded-2xl border border-[#F1E9E0] transition-all hover:border-[#8D7B68]/30 shadow-sm"
+              onClick={() => toggleExpand(item.id)}
+            >
+              <div className="p-5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <h4 className={`serif text-lg transition-colors ${expandedId === item.id ? 'text-[#8D7B68]' : 'text-[#4A3F35]'}`}>
+                    {item.name}
+                  </h4>
+                  {item.isNew && (
+                    <span className="bg-[#C8B6A6] text-white text-[8px] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter animate-pulse">
+                      Novo
+                    </span>
+                  )}
+                </div>
+                <ChevronDown 
+                  size={18} 
+                  className={`text-[#C8B6A6] transition-transform duration-300 ${expandedId === item.id ? 'rotate-180' : ''}`} 
+                />
               </div>
-            )}
-            <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover" />
-            <div className="flex-1 flex flex-col justify-center">
-              <div className="flex justify-between items-start">
-                <h4 className="font-semibold text-[#8D7B68]">{item.name}</h4>
-                <span className="text-sm font-medium text-[#A4907C]">{item.price.toLocaleString()} MT</span>
-              </div>
-              <p className="text-[11px] text-[#A4907C] mt-1 leading-tight">{item.description}</p>
-              <div className="flex items-center gap-1 mt-2">
-                 <div className={`w-2 h-2 rounded-full ${item.category === 'Cafés Especiais' ? 'bg-amber-800' : 'bg-green-200'}`} />
-                 <span className="text-[9px] uppercase tracking-widest text-[#C8B6A6]">{item.category}</span>
+              
+              {/* Expandable Description */}
+              <div 
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  expandedId === item.id ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="px-5 pb-5 pt-0">
+                  <p className="text-sm text-[#A4907C] leading-relaxed italic border-t border-[#FDFBF7] pt-3">
+                    {item.description}
+                  </p>
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center py-12 text-[#A4907C] italic text-sm">
+            Novidades a caminho desta categoria...
           </div>
-        ))}
+        )}
       </div>
 
-      {/* Promo Banner */}
-      <div className="bg-[#F1E9E0]/40 p-6 rounded-3xl border border-dashed border-[#C8B6A6] text-center space-y-2">
-        <h4 className="serif text-[#8D7B68] text-lg">Happy Hour Criativo</h4>
-        <p className="text-xs text-[#A4907C]">Todas as quartas: Na reserva de uma peça grande, o teu Latte é por nossa conta!</p>
+      {/* Note for Experience */}
+      <div className="pt-8 text-center pb-12">
+        <div className="inline-block p-1 rounded-full bg-[#F1E9E0]/30">
+          <div className="px-8 py-10 rounded-full border border-dashed border-[#C8B6A6] space-y-3 bg-white/50 backdrop-blur-sm shadow-inner">
+            <Sparkles size={16} className="mx-auto text-[#C8B6A6]" />
+            <p className="text-[10px] text-[#A4907C] uppercase tracking-[0.3em] font-black">Bubbles & Craft</p>
+            <p className="text-[11px] text-[#8D7B68] max-w-[220px] mx-auto leading-relaxed font-medium">
+              Ingredientes frescos, processos manuais e muito amor em cada preparação.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

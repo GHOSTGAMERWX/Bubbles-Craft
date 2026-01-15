@@ -2,18 +2,29 @@
 import React, { useState } from 'react';
 import { MOCK_RESERVATIONS, PIECES, MOCK_HISTORY } from '../constants.tsx';
 import { ReservationStatus } from '../types';
-// Added Heart to the imports from lucide-react
-import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, CreditCard, Check, Heart } from 'lucide-react';
+import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Check, Heart } from 'lucide-react';
 
-type ProfileSubView = 'main' | 'history' | 'settings';
+type ProfileSubView = 'main' | 'history' | 'settings' | 'user-gallery';
 
-const ProfileView: React.FC = () => {
+interface ProfileViewProps {
+  onLogout: () => void;
+}
+
+const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
   const [subView, setSubView] = useState<ProfileSubView>('main');
   const [notifications, setNotifications] = useState(true);
 
+  // Mock de fotos postadas pela Maria
+  const [userPhotos] = useState([
+    { id: 'up1', url: 'https://images.unsplash.com/photo-1525974738370-013ae11ca9c1?auto=format&fit=crop&q=80&w=400', likes: 84 },
+    { id: 'up2', url: 'https://images.unsplash.com/photo-1563240381-5ccf7690ca08?auto=format&fit=crop&q=80&w=400', likes: 126 },
+    { id: 'up3', url: 'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=400', likes: 45 },
+    { id: 'up4', url: 'https://images.unsplash.com/photo-1473186578172-c141e6798ee4?auto=format&fit=crop&q=80&w=400', likes: 210 },
+  ]);
+
   const renderMain = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <header className="flex items-center gap-6">
+      <header className="flex items-center gap-6 p-6 pb-0">
         <div className="relative">
           <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg" alt="User avatar" />
           <button className="absolute bottom-0 right-0 bg-[#8D7B68] text-white p-1.5 rounded-full border-2 border-white shadow-sm active:scale-90 transition-transform">
@@ -26,84 +37,147 @@ const ProfileView: React.FC = () => {
         </div>
       </header>
 
-      {/* Status Trackers */}
-      <section className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="serif text-xl text-[#8D7B68]">Peças em Curso</h3>
-          <button onClick={() => setNotifications(!notifications)} className="relative">
-             <Bell size={20} className={notifications ? 'text-[#8D7B68]' : 'text-[#C8B6A6]'} />
-             {notifications && <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-400 rounded-full border border-white" />}
-          </button>
-        </div>
-        
-        <div className="space-y-4">
-          {MOCK_RESERVATIONS.map(res => {
-            const piece = PIECES.find(p => p.id === res.pieceId);
-            return (
-              <div key={res.id} className="bg-white p-4 rounded-2xl border border-[#F1E9E0] space-y-3 shadow-sm">
-                <div className="flex justify-between">
-                  <div className="flex gap-3">
-                    <img src={piece?.image} className="w-12 h-12 rounded-lg object-cover" alt={piece?.name} />
-                    <div>
-                      <h4 className="text-sm font-semibold text-[#8D7B68]">{piece?.name}</h4>
-                      <p className="text-[10px] text-[#A4907C]">Reservado em {res.date}</p>
+      <div className="px-6 space-y-8">
+        {/* Status Trackers */}
+        <section className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="serif text-xl text-[#8D7B68]">Peças em Curso</h3>
+            <button onClick={() => setNotifications(!notifications)} className="relative">
+               <Bell size={20} className={notifications ? 'text-[#8D7B68]' : 'text-[#C8B6A6]'} />
+               {notifications && <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-400 rounded-full border border-white" />}
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {MOCK_RESERVATIONS.map(res => {
+              const piece = PIECES.find(p => p.id === res.pieceId);
+              return (
+                <div key={res.id} className="bg-white p-4 rounded-2xl border border-[#F1E9E0] space-y-3 shadow-sm">
+                  <div className="flex justify-between">
+                    <div className="flex gap-3">
+                      <img src={piece?.image} className="w-12 h-12 rounded-lg object-cover" alt={piece?.name} />
+                      <div>
+                        <h4 className="text-sm font-semibold text-[#8D7B68]">{piece?.name}</h4>
+                        <p className="text-[10px] text-[#A4907C]">Reservado em {res.date}</p>
+                      </div>
                     </div>
+                    <span className={`text-[10px] h-max px-2 py-1 rounded-full font-bold uppercase tracking-tighter ${
+                      res.status === ReservationStatus.READY ? 'bg-green-100 text-green-700' : 
+                      res.status === ReservationStatus.DRYING ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'
+                    }`}>
+                      {res.status}
+                    </span>
                   </div>
-                  <span className={`text-[10px] h-max px-2 py-1 rounded-full font-bold uppercase tracking-tighter ${
-                    res.status === ReservationStatus.READY ? 'bg-green-100 text-green-700' : 
-                    res.status === ReservationStatus.DRYING ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'
-                  }`}>
-                    {res.status}
-                  </span>
+                  
+                  <div className="space-y-1">
+                    <div className="h-1.5 w-full bg-[#F1E9E0] rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-[#8D7B68] transition-all duration-1000" 
+                        style={{ width: res.status === ReservationStatus.READY ? '100%' : res.status === ReservationStatus.DRYING ? '66%' : '33%' }} 
+                      />
+                    </div>
+                    <p className="text-[9px] text-[#A4907C] text-right">
+                      {res.status === ReservationStatus.READY ? 'Já podes levantar!' : 'A secar ao teu ritmo...'}
+                    </p>
+                  </div>
                 </div>
-                
-                <div className="space-y-1">
-                  <div className="h-1.5 w-full bg-[#F1E9E0] rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-[#8D7B68] transition-all duration-1000" 
-                      style={{ width: res.status === ReservationStatus.READY ? '100%' : res.status === ReservationStatus.DRYING ? '66%' : '33%' }} 
-                    />
+              );
+            })}
+          </div>
+        </section>
+
+        {/* User Posted Photos Section */}
+        <section className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="serif text-xl text-[#8D7B68]">A Minha Galeria</h3>
+            <button 
+              onClick={() => setSubView('user-gallery')}
+              className="text-[10px] uppercase font-bold text-[#A4907C] tracking-widest hover:text-[#8D7B68] transition-colors"
+            >
+              Ver Todas
+            </button>
+          </div>
+          <div className="grid grid-cols-4 gap-2">
+            {userPhotos.slice(0, 4).map(photo => (
+              <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden shadow-sm group border border-[#F1E9E0]">
+                <img src={photo.url} className="w-full h-full object-cover" alt="Minha obra" />
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="flex items-center gap-1 text-white scale-75">
+                    <Heart size={14} className="fill-current" />
+                    <span className="text-xs font-bold">{photo.likes}</span>
                   </div>
-                  <p className="text-[9px] text-[#A4907C] text-right">
-                    {res.status === ReservationStatus.READY ? 'Já podes levantar!' : 'A secar ao teu ritmo...'}
-                  </p>
+                </div>
+                <div className="absolute bottom-1 right-1 bg-white/80 backdrop-blur-sm px-1 rounded flex items-center gap-0.5 shadow-sm group-hover:hidden">
+                  <Heart size={8} className="text-red-500 fill-current" />
+                  <span className="text-[8px] font-bold text-[#8D7B68]">{photo.likes}</span>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Navigation Options */}
-      <section className="space-y-3 pt-4">
-        <ProfileOption 
-          icon={<Package size={18} />} 
-          label="Histórico de Reservas" 
-          onClick={() => setSubView('history')}
-        />
-        <ProfileOption 
-          icon={<Settings size={18} />} 
-          label="Definições da Conta" 
-          onClick={() => setSubView('settings')}
-        />
-        
-        <button className="w-full flex items-center justify-between p-5 bg-red-50/50 text-red-600 rounded-2xl mt-6 active:bg-red-50 transition-colors">
-          <div className="flex items-center gap-4">
-            <LogOut size={18} />
-            <span className="text-sm font-semibold uppercase tracking-wider">Sair da Conta</span>
+            ))}
           </div>
-        </button>
-      </section>
+        </section>
 
-      <div className="p-8 bg-brand-surface/20 border border-[#F1E9E0] rounded-[32px] text-center space-y-3">
-         <Heart size={20} className="mx-auto text-[#C8B6A6]" fill="currentColor" />
-         <p className="text-xs text-[#A4907C] italic leading-relaxed">"O barro recorda as tuas mãos, a cor recorda a tua alma."</p>
+        {/* Navigation Options */}
+        <section className="space-y-3 pt-2">
+          <ProfileOption 
+            icon={<Package size={18} />} 
+            label="Histórico de Reservas" 
+            onClick={() => setSubView('history')}
+          />
+          <ProfileOption 
+            icon={<Settings size={18} />} 
+            label="Definições da Conta" 
+            onClick={() => setSubView('settings')}
+          />
+          
+          <button 
+            onClick={onLogout}
+            className="w-full flex items-center justify-between p-5 bg-red-50/50 text-red-600 rounded-2xl mt-6 active:bg-red-50 transition-colors border border-red-100"
+          >
+            <div className="flex items-center gap-4">
+              <LogOut size={18} />
+              <span className="text-sm font-semibold uppercase tracking-wider">Sair da Conta</span>
+            </div>
+          </button>
+        </section>
+
+        <div className="p-8 bg-[#FDFBF7] border border-[#F1E9E0] rounded-[32px] text-center space-y-3 mb-10 shadow-sm">
+           <Heart size={20} className="mx-auto text-[#C8B6A6]" fill="currentColor" />
+           <p className="text-xs text-[#A4907C] italic leading-relaxed">"O barro recorda as tuas mãos, a cor recorda a tua alma."</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderUserGallery = () => (
+    <div className="p-6 space-y-6 animate-in slide-in-from-right duration-300">
+      <button onClick={() => setSubView('main')} className="flex items-center gap-2 text-[#A4907C] mb-4">
+        <ChevronLeft size={20} /> <span className="text-sm uppercase font-bold tracking-widest">Voltar</span>
+      </button>
+      <header>
+        <h2 className="serif text-3xl text-[#8D7B68]">A Minha Galeria</h2>
+        <p className="text-sm text-[#A4907C]">Teus momentos criativos capturados.</p>
+      </header>
+
+      <div className="grid grid-cols-2 gap-4">
+        {userPhotos.map(photo => (
+          <div key={photo.id} className="relative aspect-[3/4] rounded-[24px] overflow-hidden shadow-sm border border-[#F1E9E0] bg-white">
+            <img src={photo.url} className="w-full h-full object-cover" alt="Postada por mim" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-2 left-2 right-2 p-2 bg-white/85 backdrop-blur-sm rounded-xl flex justify-between items-center shadow-sm border border-white/40">
+              <div className="flex items-center gap-1">
+                <Heart size={12} className="text-red-500 fill-current" />
+                <span className="text-[10px] font-bold text-[#8D7B68]">{photo.likes} curtidas</span>
+              </div>
+              <span className="text-[8px] uppercase tracking-widest text-[#A4907C] font-bold">Publicado</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 
   const renderHistory = () => (
-    <div className="space-y-6 animate-in slide-in-from-right duration-300">
+    <div className="p-6 space-y-6 animate-in slide-in-from-right duration-300">
       <button onClick={() => setSubView('main')} className="flex items-center gap-2 text-[#A4907C] mb-4">
         <ChevronLeft size={20} /> <span className="text-sm uppercase font-bold tracking-widest">Voltar</span>
       </button>
@@ -134,15 +208,11 @@ const ProfileView: React.FC = () => {
           );
         })}
       </div>
-      
-      <div className="bg-[#FDFBF7] p-6 border border-dashed border-[#C8B6A6] rounded-2xl text-center">
-        <p className="text-xs text-[#A4907C]">Mais de 5 peças criadas. És um artista Bubbles oficial!</p>
-      </div>
     </div>
   );
 
   const renderSettings = () => (
-    <div className="space-y-6 animate-in slide-in-from-right duration-300">
+    <div className="p-6 space-y-6 animate-in slide-in-from-right duration-300">
       <button onClick={() => setSubView('main')} className="flex items-center gap-2 text-[#A4907C] mb-4">
         <ChevronLeft size={20} /> <span className="text-sm uppercase font-bold tracking-widest">Voltar</span>
       </button>
@@ -165,7 +235,6 @@ const ProfileView: React.FC = () => {
             </div>
             <ChevronLeft size={16} className="rotate-180 text-[#C8B6A6]" />
           </div>
-
           <div className="p-4 flex items-center justify-between hover:bg-neutral-50 cursor-pointer">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
@@ -178,44 +247,17 @@ const ProfileView: React.FC = () => {
             </div>
             <ChevronLeft size={16} className="rotate-180 text-[#C8B6A6]" />
           </div>
-
-          <div className="p-4 flex items-center justify-between hover:bg-neutral-50 cursor-pointer">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">
-                <CreditCard size={18} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-[#8D7B68]">Métodos de Pagamento</p>
-                <p className="text-[10px] text-[#A4907C]">M-Pesa, Cartão Bancário</p>
-              </div>
-            </div>
-            <ChevronLeft size={16} className="rotate-180 text-[#C8B6A6]" />
-          </div>
-        </div>
-
-        <div className="bg-white p-4 rounded-3xl border border-[#F1E9E0] flex items-center justify-between mt-4 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">
-              <Bell size={18} />
-            </div>
-            <p className="text-sm font-semibold text-[#8D7B68]">Notificações Push</p>
-          </div>
-          <button 
-            onClick={() => setNotifications(!notifications)}
-            className={`w-12 h-6 rounded-full transition-colors relative ${notifications ? 'bg-[#8D7B68]' : 'bg-[#F1E9E0]'}`}
-          >
-            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${notifications ? 'left-7' : 'left-1'}`} />
-          </button>
         </div>
       </div>
-      
-      <p className="text-center text-[10px] text-[#C8B6A6] mt-8 uppercase tracking-widest font-bold">
-        Bubbles & Craft App v1.0.4
-      </p>
     </div>
   );
 
-  return (subView === 'history' ? renderHistory() : subView === 'settings' ? renderSettings() : renderMain());
+  switch (subView) {
+    case 'history': return renderHistory();
+    case 'settings': return renderSettings();
+    case 'user-gallery': return renderUserGallery();
+    default: return renderMain();
+  }
 };
 
 const ProfileOption: React.FC<{ icon: React.ReactNode; label: string; onClick: () => void }> = ({ icon, label, onClick }) => (

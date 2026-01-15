@@ -2,12 +2,20 @@
 import React, { useState } from 'react';
 import { PIECES } from '../constants.tsx';
 import { Piece } from '../types';
-import { Check, Calendar, Clock, Users, ChevronRight, MessageSquare } from 'lucide-react';
+import { Check, Calendar, Clock, Users, ChevronRight, MessageSquare, Hash, Copy } from 'lucide-react';
 
 const ReserveView: React.FC = () => {
   const [step, setStep] = useState(1);
   const [selectedPieces, setSelectedPieces] = useState<Piece[]>([]);
   const [bookingData, setBookingData] = useState({ date: '', time: '', guests: 1, notes: '' });
+  const [warehouseId, setWarehouseId] = useState('');
+
+  const generateWarehouseId = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const segment1 = Array.from({ length: 4 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+    const segment2 = Math.floor(10 + Math.random() * 90);
+    return `BC-${segment1}-${segment2}`;
+  };
 
   const togglePiece = (piece: Piece) => {
     setSelectedPieces(prev => {
@@ -20,7 +28,12 @@ const ReserveView: React.FC = () => {
     });
   };
 
-  const handleNext = () => setStep(prev => prev + 1);
+  const handleNext = () => {
+    if (step === 2) {
+      setWarehouseId(generateWarehouseId());
+    }
+    setStep(prev => prev + 1);
+  };
 
   const totalPrice = selectedPieces.reduce((sum, p) => sum + p.price, 0);
 
@@ -139,24 +152,58 @@ const ReserveView: React.FC = () => {
         )}
 
         {step === 3 && (
-          <div className="text-center space-y-6 pt-10">
-            <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Check size={40} />
+          <div className="text-center space-y-6 pt-6 animate-in zoom-in-95 duration-500">
+            <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 border border-green-100">
+              <Check size={32} />
             </div>
-            <h2 className="serif text-2xl text-[#8D7B68]">Reserva Confirmada!</h2>
-            <p className="text-[#A4907C] text-sm leading-relaxed">
-              Enviámos os detalhes para o teu e-mail. <br/> Estamos ansiosos por te ver!
-            </p>
-            <div className="bg-[#FDFBF7] p-4 rounded-2xl border border-[#F1E9E0] inline-block w-full">
-               <p className="text-[10px] uppercase tracking-widest text-[#A4907C] font-bold mb-1">Data da Experiência</p>
-               <p className="serif text-[#8D7B68]">{bookingData.date || 'Em breve'} às {bookingData.time || '--:--'}</p>
+            
+            <div className="space-y-1">
+              <h2 className="serif text-3xl text-[#8D7B68]">Confirmado!</h2>
+              <p className="text-[#A4907C] text-xs uppercase tracking-widest font-bold">Tudo pronto para a tua arte</p>
             </div>
+
+            {/* Warehouse ID Tag Design */}
+            <div className="relative bg-white border-2 border-[#8D7B68]/20 rounded-3xl p-6 shadow-sm overflow-hidden group">
+              <div className="absolute top-0 right-0 p-3 opacity-10">
+                <Hash size={48} className="text-[#8D7B68]" />
+              </div>
+              
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#A4907C] font-black">ID de Armazém</p>
+                <div className="flex items-center justify-center gap-3">
+                  <span className="serif text-4xl text-[#8D7B68] font-bold tracking-tighter">
+                    {warehouseId}
+                  </span>
+                  <button className="text-[#C8B6A6] hover:text-[#8D7B68] active:scale-90 transition-all">
+                    <Copy size={16} />
+                  </button>
+                </div>
+                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#F1E9E0] to-transparent" />
+                <p className="text-[10px] text-[#A4907C] italic leading-relaxed px-4">
+                  Apresenta este código no balcão para identificar as tuas peças no nosso inventário artesanal.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+               <div className="bg-[#FDFBF7] p-3 rounded-2xl border border-[#F1E9E0]">
+                  <p className="text-[8px] uppercase tracking-widest text-[#A4907C] font-bold mb-0.5">Data</p>
+                  <p className="text-xs font-semibold text-[#8D7B68]">{bookingData.date || 'Hoje'}</p>
+               </div>
+               <div className="bg-[#FDFBF7] p-3 rounded-2xl border border-[#F1E9E0]">
+                  <p className="text-[8px] uppercase tracking-widest text-[#A4907C] font-bold mb-0.5">Horário</p>
+                  <p className="text-xs font-semibold text-[#8D7B68]">{bookingData.time || '14:30'}</p>
+               </div>
+            </div>
+
             <button 
               onClick={() => window.location.reload()}
-              className="w-full bg-[#8D7B68] text-white py-4 rounded-full font-semibold shadow-lg active:scale-95 transition-transform"
+              className="w-full bg-[#8D7B68] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all hover:bg-[#746455] mt-4"
             >
-              Voltar ao Início
+              Concluído
             </button>
+            
+            <p className="text-[10px] text-[#C8B6A6] uppercase tracking-widest">Bubbles & Craft • {new Date().getFullYear()}</p>
           </div>
         )}
       </div>
@@ -174,7 +221,7 @@ const ReserveView: React.FC = () => {
               <span className="text-lg">{totalPrice.toLocaleString()} MT</span>
             </div>
             <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-2xl">
-              {step === 1 ? 'Continuar' : 'Confirmar'} <ChevronRight size={18} />
+              {step === 1 ? 'Continuar' : 'Confirmar Reserva'} <ChevronRight size={18} />
             </div>
           </button>
         </div>

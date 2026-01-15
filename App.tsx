@@ -7,11 +7,13 @@ import ReserveView from './views/ReserveView';
 import GalleryView from './views/GalleryView';
 import MenuView from './views/MenuView';
 import ProfileView from './views/ProfileView';
+import AuthView from './views/AuthView';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -47,13 +49,18 @@ const App: React.FC = () => {
     );
   }
 
+  // Se não estiver logado, mostra a tela de autenticação
+  if (!isLoggedIn) {
+    return <AuthView onLogin={() => setIsLoggedIn(true)} />;
+  }
+
   const renderContent = () => {
     switch (activeTab) {
       case 'home': return <HomeView onNavigate={setActiveTab} />;
       case 'reserve': return <ReserveView />;
       case 'gallery': return <GalleryView />;
       case 'menu': return <MenuView />;
-      case 'profile': return <ProfileView />;
+      case 'profile': return <ProfileView onLogout={() => setIsLoggedIn(false)} />;
       default: return <HomeView onNavigate={setActiveTab} />;
     }
   };
