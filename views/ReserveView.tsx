@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { PIECES } from '../constants.tsx';
 import { Piece } from '../types';
-import { Check, Calendar, Clock, Users, ChevronRight, MessageSquare, Hash, User, Phone, Tag, Copy } from 'lucide-react';
+import { Check, Calendar, Clock, ChevronRight, MessageSquare, Hash, User, Phone, Tag, Copy } from 'lucide-react';
 
 const ReserveView: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -22,9 +22,7 @@ const ReserveView: React.FC = () => {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     const randomCode = Array.from({ length: 5 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
     const newOrderId = `ORD-${randomCode}`;
-    
     const tags = selectedPieces.map((_, i) => `${newOrderId}-${(i + 1).toString().padStart(2, '0')}`);
-    
     setOrderId(newOrderId);
     setPieceTags(tags);
   };
@@ -93,7 +91,6 @@ const ReserveView: React.FC = () => {
         {step === 2 && (
           <div className="space-y-6">
             <h3 className="text-lg font-medium text-[#8D7B68]">2. Identificação do Cliente</h3>
-            
             <div className="space-y-4">
               <div className="bg-[#F1E9E0]/30 p-4 rounded-2xl border border-[#F1E9E0] mb-2">
                 <p className="text-[10px] font-bold text-[#8D7B68] uppercase tracking-widest mb-1">Peças no Pedido:</p>
@@ -109,46 +106,20 @@ const ReserveView: React.FC = () => {
               <div className="space-y-4">
                 <div className="relative">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#C8B6A6]" size={18} />
-                  <input 
-                    type="text" 
-                    placeholder="Nome Completo para Levantamento" 
-                    value={bookingData.name}
-                    onChange={(e) => setBookingData({...bookingData, name: e.target.value})}
-                    className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" 
-                  />
+                  <input type="text" placeholder="Nome Completo para Levantamento" value={bookingData.name} onChange={(e) => setBookingData({...bookingData, name: e.target.value})} className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" />
                 </div>
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#C8B6A6]" size={18} />
-                  <input 
-                    type="tel" 
-                    placeholder="Número de Telemóvel" 
-                    value={bookingData.phone}
-                    onChange={(e) => setBookingData({...bookingData, phone: e.target.value})}
-                    className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" 
-                  />
+                  <input type="tel" placeholder="Número de Telemóvel" value={bookingData.phone} onChange={(e) => setBookingData({...bookingData, phone: e.target.value})} className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" />
                 </div>
-                
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1">
-                      <Calendar size={12} /> Data
-                    </label>
-                    <input 
-                      type="date" 
-                      value={bookingData.date}
-                      onChange={(e) => setBookingData({...bookingData, date: e.target.value})}
-                      className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" 
-                    />
+                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1"><Calendar size={12} /> Data</label>
+                    <input type="date" value={bookingData.date} onChange={(e) => setBookingData({...bookingData, date: e.target.value})} className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1">
-                      <Clock size={12} /> Hora
-                    </label>
-                    <select 
-                      value={bookingData.time}
-                      onChange={(e) => setBookingData({...bookingData, time: e.target.value})}
-                      className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm"
-                    >
+                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1"><Clock size={12} /> Hora</label>
+                    <select value={bookingData.time} onChange={(e) => setBookingData({...bookingData, time: e.target.value})} className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm">
                       <option value="">Escolher</option>
                       <option value="10:00">10:00</option>
                       <option value="14:30">14:30</option>
@@ -156,18 +127,9 @@ const ReserveView: React.FC = () => {
                     </select>
                   </div>
                 </div>
-
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1">
-                    <MessageSquare size={12} /> Notas
-                  </label>
-                  <textarea 
-                    rows={2}
-                    value={bookingData.notes}
-                    onChange={(e) => setBookingData({...bookingData, notes: e.target.value})}
-                    placeholder="Algum detalhe especial?"
-                    className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm resize-none"
-                  />
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] flex items-center gap-2 font-bold ml-1"><MessageSquare size={12} /> Notas</label>
+                  <textarea rows={2} value={bookingData.notes} onChange={(e) => setBookingData({...bookingData, notes: e.target.value})} placeholder="Algum detalhe especial?" className="w-full bg-white border border-[#F1E9E0] p-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm resize-none" />
                 </div>
               </div>
             </div>
@@ -176,36 +138,22 @@ const ReserveView: React.FC = () => {
 
         {step === 3 && (
           <div className="text-center space-y-6 pt-2 animate-in zoom-in-95 duration-500">
-            <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 border border-green-100">
-              <Check size={32} />
-            </div>
-            
+            <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 border border-green-100"><Check size={32} /></div>
             <div className="space-y-1">
               <h2 className="serif text-3xl text-[#8D7B68]">Reserva Confirmada</h2>
               <p className="text-[#A4907C] text-[10px] uppercase tracking-[0.3em] font-black">Bubbles & Craft Inventário</p>
             </div>
-
-            {/* Main Order Card */}
             <div className="relative bg-white border-2 border-[#8D7B68]/20 rounded-[32px] p-6 shadow-sm overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                <Hash size={60} />
-              </div>
-              
+              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none"><Hash size={60} /></div>
               <div className="space-y-5">
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-[#A4907C] font-bold">ID Único do Pedido</p>
                   <div className="flex items-center justify-center gap-3 mt-1">
-                    <span className="serif text-4xl text-[#8D7B68] font-bold tracking-tighter">
-                      {orderId}
-                    </span>
-                    <button className="text-[#C8B6A6] active:scale-90 transition-all">
-                      <Copy size={16} />
-                    </button>
+                    <span className="serif text-4xl text-[#8D7B68] font-bold tracking-tighter">{orderId}</span>
+                    <button className="text-[#C8B6A6] active:scale-90 transition-all"><Copy size={16} /></button>
                   </div>
                 </div>
-
                 <div className="w-full h-px border-t border-dashed border-[#F1E9E0]" />
-
                 <div className="space-y-3">
                   <p className="text-[9px] uppercase tracking-[0.2em] text-[#A4907C] font-black">Etiquetas Individuais ({selectedPieces.length})</p>
                   <div className="flex flex-wrap justify-center gap-2">
@@ -220,25 +168,16 @@ const ReserveView: React.FC = () => {
                 </div>
               </div>
             </div>
-
             <div className="bg-[#F1E9E0]/30 rounded-2xl p-4 text-left border border-[#F1E9E0]">
               <div className="flex items-start gap-3">
                 <div className="mt-0.5"><User size={14} className="text-[#8D7B68]" /></div>
                 <div>
                   <p className="text-[9px] uppercase tracking-widest text-[#A4907C] font-black">Verificação Alternativa</p>
-                  <p className="text-xs text-[#8D7B68] font-medium leading-relaxed">
-                    Podes levantar as tuas peças indicando o nome <b>{bookingData.name || 'registado'}</b> ou o telemóvel <b>{bookingData.phone || 'associado'}</b> no balcão.
-                  </p>
+                  <p className="text-xs text-[#8D7B68] font-medium leading-relaxed">Podes levantar as tuas peças indicando o nome <b>{bookingData.name || 'registado'}</b> ou o telemóvel <b>{bookingData.phone || 'associado'}</b> no balcão.</p>
                 </div>
               </div>
             </div>
-
-            <button 
-              onClick={() => window.location.reload()}
-              className="w-full bg-[#8D7B68] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all hover:bg-[#746455]"
-            >
-              Concluído
-            </button>
+            <button onClick={() => window.location.reload()} className="w-full bg-[#8D7B68] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all hover:bg-[#746455]">Concluído</button>
           </div>
         )}
       </div>

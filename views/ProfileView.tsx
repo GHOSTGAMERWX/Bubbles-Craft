@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { MOCK_RESERVATIONS, PIECES, MOCK_HISTORY } from '../constants.tsx';
 import { ReservationStatus } from '../types';
-import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Check, Heart, Hash, Tag, Info } from 'lucide-react';
+import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Heart, Hash, Tag, Info } from 'lucide-react';
 
 type ProfileSubView = 'main' | 'history' | 'settings' | 'user-gallery';
 
@@ -37,7 +37,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
       </header>
 
       <div className="px-6 space-y-8">
-        {/* Reservation Orders Section */}
         <section className="space-y-4">
           <div className="flex justify-between items-center border-b border-[#F1E9E0] pb-2">
             <h3 className="serif text-xl text-[#8D7B68]">Pedidos em Curso</h3>
@@ -48,64 +47,56 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
           </div>
           
           <div className="space-y-6">
-            {MOCK_RESERVATIONS.map(res => {
-              return (
-                <div key={res.id} className="bg-white p-5 rounded-[32px] border border-[#F1E9E0] space-y-4 shadow-sm relative overflow-hidden">
-                  {/* Order ID Header */}
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 bg-[#F1E9E0]/50 rounded-xl text-[#8D7B68]">
-                        <Hash size={16} />
-                      </div>
-                      <span className="text-sm font-bold text-[#8D7B68]">{res.id}</span>
-                    </div>
-                    <span className={`text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest ${
-                      res.status === ReservationStatus.READY ? 'bg-green-50 text-green-700 border border-green-100' : 
-                      res.status === ReservationStatus.DRYING ? 'bg-amber-50 text-amber-700 border border-amber-100' : 'bg-gray-50 text-gray-700 border border-gray-100'
-                    }`}>
-                      {res.status}
-                    </span>
+            {MOCK_RESERVATIONS.map(res => (
+              <div key={res.id} className="bg-white p-5 rounded-[32px] border border-[#F1E9E0] space-y-4 shadow-sm relative overflow-hidden">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 bg-[#F1E9E0]/50 rounded-xl text-[#8D7B68]"><Hash size={16} /></div>
+                    <span className="text-sm font-bold text-[#8D7B68]">{res.id}</span>
                   </div>
-
-                  {/* Individual Pieces Tracker */}
-                  <div className="space-y-3">
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-[#A4907C] font-black pl-1">Rastreio de Peças</p>
-                    {res.pieceIds.map((pid, idx) => (
-                      <div key={pid} className="flex items-center justify-between group">
-                        <div className="flex items-center gap-3">
-                          <Tag size={12} className="text-[#C8B6A6]" />
-                          <div>
-                            <p className="text-[11px] font-mono font-bold text-[#8D7B68] leading-none">{pid}</p>
-                            <p className="text-[10px] text-[#A4907C] leading-none mt-1">{res.pieceNames[idx]}</p>
-                          </div>
-                        </div>
-                        <div className="h-1 w-24 bg-[#F1E9E0] rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-[#8D7B68] transition-all duration-1000" 
-                            style={{ width: res.status === ReservationStatus.READY ? '100%' : '60%' }} 
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Verification Info */}
-                  <div className="pt-3 border-t border-[#FDFBF7] flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-[9px] text-[#A4907C]">
-                      <Info size={10} />
-                      <span>Verificação: <b>{res.customerName}</b> • <b>{res.customerPhone.split(' ').pop()}</b></span>
-                    </div>
-                    <p className="text-[9px] text-[#C8B6A6] italic uppercase tracking-wider">
-                      Agendado para: {res.date} • {res.time}
-                    </p>
-                  </div>
+                  <span className={`text-[10px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest ${
+                    res.status === ReservationStatus.READY ? 'bg-green-50 text-green-700 border border-green-100' : 
+                    res.status === ReservationStatus.DRYING ? 'bg-amber-50 text-amber-700 border border-amber-100' : 'bg-gray-50 text-gray-700 border border-gray-100'
+                  }`}>
+                    {res.status}
+                  </span>
                 </div>
-              );
-            })}
+
+                <div className="space-y-3">
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-[#A4907C] font-black pl-1">Rastreio de Peças</p>
+                  {res.pieceIds.map((pid, idx) => (
+                    <div key={pid} className="flex items-center justify-between group">
+                      <div className="flex items-center gap-3">
+                        <Tag size={12} className="text-[#C8B6A6]" />
+                        <div>
+                          <p className="text-[11px] font-mono font-bold text-[#8D7B68] leading-none">{pid}</p>
+                          <p className="text-[10px] text-[#A4907C] leading-none mt-1">{res.pieceNames[idx]}</p>
+                        </div>
+                      </div>
+                      <div className="h-1 w-24 bg-[#F1E9E0] rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-[#8D7B68] transition-all duration-1000" 
+                          style={{ width: res.status === ReservationStatus.READY ? '100%' : '60%' }} 
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-3 border-t border-[#FDFBF7] flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-[9px] text-[#A4907C]">
+                    <Info size={10} />
+                    <span>Verificação: <b>{res.customerName}</b> • <b>{res.customerPhone.split(' ').pop()}</b></span>
+                  </div>
+                  <p className="text-[9px] text-[#C8B6A6] italic uppercase tracking-wider">
+                    Agendado para: {res.date} • {res.time}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Gallery / Portfolio section */}
         <section className="space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="serif text-xl text-[#8D7B68]">Meu Portfólio</h3>
@@ -122,11 +113,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
           </div>
         </section>
 
-        {/* Account Options */}
         <section className="space-y-3 pt-2">
           <ProfileOption icon={<Package size={18} />} label="Histórico de Criações" onClick={() => setSubView('history')} />
           <ProfileOption icon={<Settings size={18} />} label="Definições & Privacidade" onClick={() => setSubView('settings')} />
-          
           <button onClick={onLogout} className="w-full flex items-center justify-between p-5 bg-red-50/30 text-red-600 rounded-2xl mt-6 border border-red-100 transition-colors">
             <div className="flex items-center gap-4">
               <LogOut size={18} />
@@ -183,9 +172,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
               </div>
               <div className="text-right">
                 <p className="text-xs font-bold text-[#8D7B68]">{item.price} MT</p>
-                <div className="flex items-center gap-1 text-[8px] text-green-600 font-black uppercase">
-                   Finalizado
-                </div>
+                <div className="flex items-center gap-1 text-[8px] text-green-600 font-black uppercase">Finalizado</div>
               </div>
             </div>
           );
@@ -234,14 +221,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
 };
 
 const ProfileOption: React.FC<{ icon: React.ReactNode; label: string; onClick: () => void }> = ({ icon, label, onClick }) => (
-  <button 
-    onClick={onClick}
-    className="w-full flex items-center justify-between p-4 bg-white border border-[#F1E9E0] rounded-2xl active:bg-[#F1E9E0]/30 transition-colors shadow-sm"
-  >
+  <button onClick={onClick} className="w-full flex items-center justify-between p-4 bg-white border border-[#F1E9E0] rounded-2xl active:bg-[#F1E9E0]/30 transition-colors shadow-sm">
     <div className="flex items-center gap-4 text-[#8D7B68]">
-      <div className="w-8 h-8 rounded-lg bg-[#F1E9E0]/50 flex items-center justify-center">
-        {icon}
-      </div>
+      <div className="w-8 h-8 rounded-lg bg-[#F1E9E0]/50 flex items-center justify-center">{icon}</div>
       <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
     </div>
     <ChevronLeft size={14} className="rotate-180 text-[#C8B6A6]" />

@@ -31,21 +31,28 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
     <div className="min-h-screen bg-[#FDFBF7] flex flex-col max-w-md mx-auto p-8 animate-in fade-in duration-500">
       <div className="flex-1 flex flex-col justify-center space-y-8">
         
-        {/* Header Section */}
-        <header className="text-center space-y-3">
-          <div className="w-16 h-16 bg-[#F1E9E0] text-[#8D7B68] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#C8B6A6]/30">
-             <span className="serif text-xl font-bold">B&C</span>
+        {/* Header Section - Matched with Home Logo Style */}
+        <header className="text-center">
+          <div className="text-center pt-2 mb-10">
+            <h2 className="serif text-2xl tracking-tight text-[#8D7B68]">Bubbles & Craft</h2>
+            <p className="text-[8px] uppercase tracking-[0.4em] text-[#A4907C] font-medium mt-1">Artesanal & Aconchegante</p>
           </div>
-          <h1 className="serif text-4xl text-[#8D7B68]">
-            {mode === 'login' ? 'Bem-vindo de volta' : mode === 'signup' ? 'Cria a tua conta' : 'Recuperar Acesso'}
-          </h1>
-          <p className="text-xs text-[#A4907C] leading-relaxed max-w-[240px] mx-auto uppercase tracking-widest font-medium">
-            {mode === 'login' 
-              ? 'Entre para continuar sua jornada criativa.' 
-              : mode === 'signup' 
-              ? 'Junte-se à nossa comunidade de artesãos.'
-              : 'Introduza o seu contacto para recuperar a sua senha.'}
-          </p>
+
+          <div className="space-y-4">
+            {mode !== 'login' && (
+              <h1 className="serif text-4xl text-[#8D7B68] animate-in slide-in-from-top-2 duration-500">
+                {mode === 'signup' ? 'Cria a tua conta' : 'Recuperar Acesso'}
+              </h1>
+            )}
+            
+            <p className={`mx-auto uppercase tracking-widest font-medium text-[#A4907C] leading-relaxed transition-all duration-500 ${mode === 'login' ? 'text-sm max-w-[280px]' : 'text-[10px] max-w-[240px]'}`}>
+              {mode === 'login' 
+                ? 'Entre para continuar sua jornada criativa.' 
+                : mode === 'signup' 
+                ? 'Junte-se à nossa comunidade de artesãos.'
+                : 'Introduza o seu contacto para recuperar a sua senha.'}
+            </p>
+          </div>
         </header>
 
         {/* Auth Forms */}
@@ -57,7 +64,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
                 required
                 type="text" 
                 placeholder="Nome Completo" 
-                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all"
+                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all shadow-sm"
               />
             </div>
           )}
@@ -68,7 +75,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
               required
               type="text" 
               placeholder="Email ou Telemóvel" 
-              className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all"
+              className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all shadow-sm"
             />
           </div>
 
@@ -79,7 +86,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
                 required
                 type="tel" 
                 placeholder="Número de Telemóvel" 
-                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all"
+                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all shadow-sm"
               />
             </div>
           )}
@@ -91,7 +98,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
                 required
                 type="password" 
                 placeholder="Palavra-passe" 
-                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all"
+                className="w-full bg-white border border-[#F1E9E0] pl-12 pr-4 py-4 rounded-2xl outline-none focus:border-[#8D7B68] text-sm transition-all shadow-sm"
               />
             </div>
           )}

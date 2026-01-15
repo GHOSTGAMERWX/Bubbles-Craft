@@ -34,6 +34,27 @@ export const GALLERY_IMAGES = [
   'https://images.unsplash.com/photo-1514228742587-6b1558fbed39?auto=format&fit=crop&q=80&w=600',
   'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600',
   'https://images.unsplash.com/photo-1590422444867-041c5014886f?auto=format&fit=crop&q=80&w=600',
+  // Novas imagens para demonstrar o "Carregar Mais"
+  'https://images.unsplash.com/photo-1525974738370-013ae11ca9c1?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1563240381-5ccf7690ca08?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1473186578172-c141e6798ee4?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1578507002740-8829601ca22e?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1490103714232-243e8a719543?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1460306423018-2b001034455b?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1490103714232-243e8a719543?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1525974738370-013ae11ca9c1?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1569336415962-a4bd9f6dfc0f?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1526045478516-99145907023c?auto=format&fit=crop&q=80&w=600',
 ];
 
 export const MOCK_RESERVATIONS: Reservation[] = [

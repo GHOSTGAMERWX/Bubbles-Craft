@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useMemo } from 'react';
 import { GALLERY_IMAGES } from '../constants.tsx';
-import { Heart, Camera, Plus, ChevronDown } from 'lucide-react';
+import { Heart, Camera, ChevronDown } from 'lucide-react';
 
 interface GalleryItem {
   id: string;
@@ -42,7 +42,6 @@ const GalleryView: React.FC = () => {
           isUserUploaded: true
         };
         setItems([newItem, ...items]);
-        // Ao fazer upload, garantimos que a nova foto aparece aumentando o contador se necessário
         setVisibleCount(prev => prev + 1);
       };
       reader.readAsDataURL(file);
@@ -78,7 +77,6 @@ const GalleryView: React.FC = () => {
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#A4907C] font-bold">Galeria Bubbles & Craft</p>
         </header>
 
-        {/* Hero Gallery Piece - Obra da Semana */}
         <div className="relative rounded-[32px] overflow-hidden aspect-[4/5] bg-neutral-100 shadow-xl">
           <img src={featured.url} className="w-full h-full object-cover" alt="Featured art" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -102,14 +100,11 @@ const GalleryView: React.FC = () => {
            <span className="text-[10px] text-[#A4907C] font-medium italic">Role para descobrir</span>
         </div>
 
-        {/* Grid - Persistent Info Design */}
         <div className="grid grid-cols-2 gap-4">
           {gridItems.map((item) => (
             <div key={item.id} className="relative rounded-[24px] overflow-hidden shadow-sm aspect-[3/4] bg-white border border-[#F1E9E0] animate-in zoom-in-95 duration-300">
               <img src={item.url} className="w-full h-full object-cover" alt={`By ${item.creator}`} />
-              
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-              
               <div className="absolute bottom-2 left-2 right-2 p-2 bg-white/85 backdrop-blur-sm rounded-xl flex justify-between items-center shadow-sm border border-white/40">
                 <div className="overflow-hidden mr-1">
                   <p className="serif text-[11px] text-[#4A3F35] truncate leading-tight font-medium">
@@ -128,7 +123,6 @@ const GalleryView: React.FC = () => {
           ))}
         </div>
 
-        {/* Load More Button */}
         {hasMore && (
           <div className="flex justify-center pt-4 pb-8">
             <button 
@@ -139,24 +133,11 @@ const GalleryView: React.FC = () => {
             </button>
           </div>
         )}
-
-        {!hasMore && (
-          <div className="text-center py-8 opacity-40 italic text-[10px] text-[#A4907C] uppercase tracking-widest">
-            bubbles_and_craft • {items.length} memórias • Fim da galeria
-          </div>
-        )}
       </div>
 
-      {/* Floating Action Button (FAB) for Upload - Fixed to stay within the mobile frame */}
       <div className="fixed bottom-24 left-0 right-0 max-w-md mx-auto pointer-events-none z-50">
         <div className="flex justify-end p-6">
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            className="hidden" 
-            accept="image/*" 
-            onChange={handleFileUpload}
-          />
+          <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} />
           <button 
             onClick={() => fileInputRef.current?.click()}
             className="w-14 h-14 bg-[#8D7B68] text-white rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-all border-4 border-white pointer-events-auto"
