@@ -10,7 +10,6 @@ export interface Piece {
   description: string;
 }
 
-// Updated MenuItem category to include both food and beverage categories defined in constants.tsx
 export interface MenuItem {
   id: string;
   name: string;
@@ -26,8 +25,11 @@ export enum ReservationStatus {
 }
 
 export interface Reservation {
-  id: string;
-  pieceId: string;
+  id: string; // Order ID Único
+  pieceIds: string[]; // IDs Individuais das Peças (ex: ORD-123-01)
+  pieceNames: string[]; // Nomes das peças para exibição
+  customerName: string;
+  customerPhone: string;
   date: string;
   time: string;
   status: ReservationStatus;
