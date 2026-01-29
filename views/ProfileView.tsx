@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { MOCK_RESERVATIONS, PIECES, MOCK_HISTORY } from '../constants.tsx';
 import { ReservationStatus } from '../types';
-import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Heart, Hash, Tag, Info, MoreVertical, Trash2, ImageIcon, AlertTriangle, X } from 'lucide-react';
+import { Bell, Package, LogOut, Settings, Camera, ChevronLeft, User as UserIcon, Shield, Heart, Hash, Info, MoreVertical, Trash2, ImageIcon, AlertTriangle } from 'lucide-react';
 
 type ProfileSubView = 'main' | 'history' | 'settings' | 'user-gallery';
 
@@ -35,7 +35,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
     <div key={photo.id} className={`relative rounded-xl overflow-hidden shadow-sm border border-[#F1E9E0] group animate-in zoom-in-95 duration-300 ${isLarge ? 'aspect-[3/4]' : 'aspect-square'}`}>
       <img src={photo.url} className="w-full h-full object-cover" alt="Obra" />
       
-      {/* Menu Trigger - Now consistently visible with a subtle background */}
       <button 
         onClick={(e) => {
           e.stopPropagation();
@@ -46,7 +45,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
         <MoreVertical size={14} />
       </button>
 
-      {/* Menu Dropdown */}
       {activeMenu === photo.id && (
         <div className="absolute top-10 right-2 bg-white border border-[#F1E9E0] rounded-xl shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 min-w-[140px]">
           <button 
@@ -62,7 +60,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onLogout }) => {
         </div>
       )}
 
-      {/* Confirmation Overlay */}
       {photoToDelete === photo.id && (
         <div className="absolute inset-0 bg-[#8D7B68]/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-4 text-center space-y-3 animate-in fade-in duration-300">
           <AlertTriangle size={24} className="text-white mb-1" />

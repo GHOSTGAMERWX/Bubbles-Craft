@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { PIECES } from '../constants.tsx';
 import { Piece } from '../types';
-import { Check, Calendar, Clock, ChevronRight, MessageSquare, Hash, UserCheck, Camera, Sparkles, AlertCircle, Tag, ArrowRight, Printer, Share2 } from 'lucide-react';
+import { Check, Calendar, Clock, ChevronRight, MessageSquare, Hash, UserCheck, Camera, Sparkles, AlertCircle, Tag, ArrowRight, Share2 } from 'lucide-react';
 
 const ReserveView: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -244,7 +244,6 @@ const ReserveView: React.FC = () => {
 
         {step === 4 && (
           <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in zoom-in-95 duration-700 text-center pb-12">
-            {/* Success Animation Container */}
             <div className="relative">
               <div className="absolute inset-0 bg-[#8D7B68]/10 rounded-full animate-ping duration-[2000ms]" />
               <div className="relative w-24 h-24 bg-white border-4 border-[#8D7B68] rounded-full flex items-center justify-center text-[#8D7B68] shadow-xl">
@@ -260,7 +259,6 @@ const ReserveView: React.FC = () => {
               </p>
             </div>
 
-            {/* Receipt Card */}
             <div className="w-full bg-white rounded-3xl border border-[#F1E9E0] shadow-sm overflow-hidden flex flex-col">
               <div className="p-6 bg-[#FDFBF7] border-b border-dashed border-[#F1E9E0] space-y-4">
                  <div className="flex justify-between items-center text-[10px] uppercase font-bold tracking-widest text-[#A4907C]">
@@ -297,10 +295,9 @@ const ReserveView: React.FC = () => {
               </div>
             </div>
 
-            {/* Actions */}
             <div className="w-full space-y-3">
               <button 
-                onClick={() => window.location.reload()} // Em uma app real, trocaria a tab ativa aqui
+                onClick={() => window.location.reload()} 
                 className="w-full bg-[#8D7B68] text-white py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
               >
                 Ver no meu Perfil <ArrowRight size={18} />
