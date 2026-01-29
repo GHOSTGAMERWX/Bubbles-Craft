@@ -25,13 +25,14 @@ export enum ReservationStatus {
 }
 
 export interface Reservation {
-  id: string; // Order ID Único
-  pieceIds: string[]; // IDs Individuais das Peças (ex: ORD-123-01)
-  pieceNames: string[]; // Nomes das peças para exibição
+  id: string; 
+  pieceIds: string[]; 
+  pieceNames: string[]; 
   customerName: string;
   customerPhone: string;
   date: string;
   time: string;
   status: ReservationStatus;
   guests: number;
+  paintedImages?: Record<string, string>; // Mapeia o Tag ID para a imagem base64/url
 }
