@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { PIECES } from '../constants.tsx';
 import { Piece } from '../types';
-import { Check, Calendar, Clock, MessageSquare, UserCheck, Camera, Sparkles, AlertCircle, Tag } from 'lucide-react';
+import { Check, UserCheck, Camera, AlertCircle, Tag } from 'lucide-react';
 
 const ReserveView: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -182,11 +182,11 @@ const ReserveView: React.FC = () => {
             </div>
 
             <div className="space-y-4">
-               {pieceTags.map((tag, i) => (
+               {pieceTags.map((tag) => (
                  <div key={tag} className="bg-white border border-[#F1E9E0] p-4 rounded-2xl flex items-center justify-between">
                    <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg bg-[#F1E9E0] overflow-hidden flex items-center justify-center">
-                        {paintedImages[tag] ? <img src={paintedImages[tag]} className="w-full h-full object-cover" /> : <Tag size={16} />}
+                        {paintedImages[tag] ? <img src={paintedImages[tag]} className="w-full h-full object-cover" alt="Peça pintada" /> : <Tag size={16} />}
                       </div>
                       <span className="text-sm font-bold text-[#8D7B68]">{tag}</span>
                    </div>
