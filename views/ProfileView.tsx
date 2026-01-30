@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import { MOCK_RESERVATIONS, MOCK_HISTORY } from '../constants.tsx';
-import { ReservationStatus } from '../types';
-import { Bell, Package, LogOut, Settings, Hash, X, AlertCircle } from 'lucide-react';
+import { MOCK_RESERVATIONS } from '../constants.tsx';
+import { Bell, Package, LogOut, Settings, Hash } from 'lucide-react';
 
 interface ProfileViewProps {
   onLogout: () => void;

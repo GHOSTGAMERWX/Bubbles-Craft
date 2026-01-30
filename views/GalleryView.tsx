@@ -1,7 +1,7 @@
 
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { GALLERY_IMAGES } from '../constants.tsx';
-import { Heart, Camera, ChevronDown, X, Download, CheckCircle2, Loader2, Maximize2, RotateCw, ZoomIn, Move } from 'lucide-react';
+import { Heart, Camera, X, Download, CheckCircle2, Loader2, RotateCw, ZoomIn, Move } from 'lucide-react';
 
 interface GalleryItem {
   id: string;
