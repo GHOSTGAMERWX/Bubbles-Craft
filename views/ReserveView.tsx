@@ -25,7 +25,6 @@ const ReserveView: React.FC = () => {
     phone: userProfile.phone
   });
   
-  const [orderId, setOrderId] = useState('');
   const [pieceTags, setPieceTags] = useState<string[]>([]);
 
   const generateIds = () => {
@@ -33,7 +32,6 @@ const ReserveView: React.FC = () => {
     const randomCode = Array.from({ length: 5 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
     const newOrderId = `ORD-${randomCode}`;
     const tags = selectedPieces.map((_, i) => `${newOrderId}-${(i + 1).toString().padStart(2, '0')}`);
-    setOrderId(newOrderId);
     setPieceTags(tags);
   };
 
