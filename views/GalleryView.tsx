@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { GALLERY_IMAGES } from '../constants.tsx';
-import { Heart, Camera, X, Download, CheckCircle2, Loader2, RotateCw, ZoomIn, Move } from 'lucide-react';
+import { Heart, Camera, X, Download, Check, Loader2, RotateCw, ZoomIn, Move, Sparkles, ArrowUpRight } from 'lucide-react';
 
 interface GalleryItem {
   id: string;
@@ -166,7 +166,7 @@ const GalleryView: React.FC = () => {
         );
         
         ctx.restore();
-        resolve(canvas.toDataURL('image/jpeg', 0.95)); // Alta qualidade
+        resolve(canvas.toDataURL('image/jpeg', 0.95));
       };
     });
   };
@@ -191,7 +191,7 @@ const GalleryView: React.FC = () => {
       setIsPublishing(false);
       setEditingImage(null);
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      setTimeout(() => setShowToast(false), 5000);
     }, 500);
   };
 
@@ -223,6 +223,11 @@ const GalleryView: React.FC = () => {
       }
       return item;
     }));
+  };
+
+  const scrollToNewItem = () => {
+    window.scrollTo({ top: 400, behavior: 'smooth' });
+    setShowToast(false);
   };
 
   const featured = items[0];
@@ -268,6 +273,11 @@ const GalleryView: React.FC = () => {
           {gridItems.map((item) => (
             <div key={item.id} className="relative rounded-[24px] overflow-hidden aspect-square shadow-sm bg-white border border-[#F1E9E0] animate-in zoom-in-95 duration-300 cursor-pointer" onClick={() => setSelectedImage(item)}>
               <LazyImage src={item.url} alt={`Obra por ${item.creator}`} className="w-full h-full" />
+              {item.isUserUploaded && (
+                <div className="absolute top-2 left-2 bg-[#8D7B68] text-white p-1 rounded-full shadow-lg">
+                  <Sparkles size={10} />
+                </div>
+              )}
               <div className="absolute bottom-2 left-2 right-2 p-2 bg-white/90 backdrop-blur-sm rounded-xl flex justify-between items-center shadow-sm border border-white/40">
                 <p className="serif text-[10px] text-[#4A3F35] truncate font-medium">{item.creator}</p>
                 <button onClick={(e) => { e.stopPropagation(); toggleLike(item.id); }} className="flex items-center gap-1">
@@ -383,51 +393,69 @@ const GalleryView: React.FC = () => {
         </div>
       )}
 
-      {/* Pop-up de Visualização (Fullscreen Viewer) */}
+      {/* Pop-up de Visualização Refinado e Responsivo */}
       {selectedImage && !editingImage && (
-        <div className="fixed inset-0 z-[100] bg-white/98 backdrop-blur-xl flex flex-col items-center justify-center p-4 animate-in fade-in duration-300">
-          {/* Botão de Fechar */}
+        <div className="fixed inset-0 z-[100] bg-white/98 backdrop-blur-xl flex flex-col items-center justify-center p-6 animate-in fade-in duration-300">
           <button 
             onClick={() => setSelectedImage(null)} 
-            className="absolute top-8 right-8 p-3 text-[#A4907C] hover:text-[#8D7B68] transition-colors z-[110]"
+            className="absolute top-8 right-8 p-3 text-[#A4907C] hover:text-[#8D7B68] transition-colors z-[110] active:scale-90"
           >
             <X size={32} />
           </button>
           
-          {/* Container da Imagem com Resolução Real e Fit sem Distorção */}
-          <div className="w-full h-full max-h-[80vh] flex items-center justify-center">
-            <div className="relative group max-w-full max-h-full">
-              <img 
-                src={selectedImage.url} 
-                className="max-w-full max-h-full object-contain rounded-3xl shadow-2xl border-4 border-white animate-in zoom-in-95 duration-500" 
-                alt={`Obra de ${selectedImage.creator}`} 
-                style={{
-                  // Garantir que a imagem seja carregada na melhor qualidade disponível
-                  imageRendering: 'auto'
-                }}
-              />
+          <div className="w-full flex-1 flex flex-col items-center justify-center max-w-[500px] mx-auto">
+            <div className="relative group w-full flex flex-col items-center animate-in zoom-in-95 duration-500">
+              <div className="bg-white p-2 rounded-[32px] shadow-2xl border border-[#F1E9E0] w-full aspect-square flex items-center justify-center overflow-hidden">
+                <img 
+                  src={selectedImage.url} 
+                  className="w-full h-full object-contain rounded-[24px]" 
+                  alt={`Obra de ${selectedImage.creator}`} 
+                />
+              </div>
               
-              {/* Overlay de Info no Pop-up */}
-              <div className="absolute -bottom-16 left-0 right-0 text-center space-y-2">
+              <div className="mt-8 text-center space-y-2">
                 <p className="text-[10px] uppercase font-black tracking-[0.4em] text-[#A4907C]">Autor da Obra</p>
                 <h3 className="serif text-3xl text-[#8D7B68]">{selectedImage.creator}</h3>
+                
+                <div className="flex items-center justify-center gap-2 mt-2">
+                   <div className="flex items-center gap-1.5 bg-[#FDFBF7] px-3 py-1 rounded-full border border-[#F1E9E0]">
+                      <Heart size={14} className={selectedImage.isLiked ? 'text-red-500 fill-current' : 'text-[#C8B6A6]'} />
+                      <span className="text-[11px] font-bold text-[#8D7B68]">{selectedImage.likes}</span>
+                   </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Botões de Ação no Pop-up */}
-          <div className="mt-20 flex gap-4">
-             <button className="flex items-center gap-3 bg-[#8D7B68] text-white px-10 py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-transform hover:bg-[#746455]">
-               <Download size={20} /> Guardar Arte
-             </button>
+            <div className="mt-12 w-full">
+               <button className="w-full flex items-center justify-center gap-3 bg-[#8D7B68] text-white py-5 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-transform hover:bg-[#746455]">
+                 <Download size={20} /> Guardar Arte Digital
+               </button>
+            </div>
           </div>
         </div>
       )}
 
+      {/* Toast de Confirmação Refinado */}
       {showToast && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[110] bg-[#8D7B68] text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-10">
-          <CheckCircle2 size={18} />
-          <span className="text-[10px] font-black uppercase tracking-widest">Obra publicada na galeria</span>
+        <div className="fixed bottom-24 left-0 right-0 px-6 z-[110] flex justify-center pointer-events-none">
+          <div className="bg-white/80 backdrop-blur-xl border border-[#8D7B68]/20 px-4 py-3 rounded-2xl shadow-[0_20px_50px_rgba(141,123,104,0.15)] flex items-center gap-4 animate-in slide-in-from-bottom-12 fade-in duration-700 pointer-events-auto max-w-[340px] w-full">
+            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0 shadow-inner relative">
+              <Check size={20} />
+              <div className="absolute inset-0 rounded-xl bg-green-500/20 animate-ping" />
+            </div>
+            
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] font-bold text-[#8D7B68] uppercase tracking-wider truncate leading-tight">Obra Publicada!</p>
+              <p className="text-[9px] text-[#A4907C] font-medium truncate">Já podes ver a tua criação na galeria.</p>
+            </div>
+
+            <button 
+              onClick={scrollToNewItem}
+              className="flex items-center gap-1.5 bg-[#8D7B68] text-white px-3 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest active:scale-95 transition-transform shadow-md"
+            >
+              Ver <ArrowUpRight size={10} />
+            </button>
+          </div>
         </div>
       )}
 
